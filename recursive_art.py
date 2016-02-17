@@ -15,15 +15,20 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
+    #create lists of functions for coin flips
     func_list1 = ['x','y']
     func_list2 = ['cos_pi','sin_pi']
     func_list3 = ['prod','avg']
 
+    #set current depth
     depth = random.randint(min_depth,max_depth)
 
+    #base case for depth = 0
     if depth <= 0:
         random_xy = func_list1[random.randint(0,1)]
         return random_xy
+
+    #if not base case, call function again wirh randomness
     else:
         choice = random.randint(1,3)
         coin_flip = random.randint(0,1)
@@ -50,6 +55,7 @@ def evaluate_random_function(f, x, y):
         >>> evaluate_random_function(["y"],0.1,0.02)
         0.02
     """
+    #catagorize using lots of if/elif statements
     if f[0] == "x":
         return x
     elif f[0] == "y":
@@ -62,6 +68,8 @@ def evaluate_random_function(f, x, y):
         return evaluate_random_function(f[1],x,y) * evaluate_random_function(f[2],x,y)
     elif f[0] == 'avg':
         return (evaluate_random_function(f[1],x,y) + evaluate_random_function(f[2],x,y)) / 2.0
+
+    #included else just in case something bad happens.  I think this will break code
     else:
         print "something bad happened"
         return None
@@ -93,6 +101,7 @@ def remap_interval(val,
         >>> remap_interval(5, 4, 6, 1, 2)
         1.5
     """
+    #this should be mathematically correct.  Potentially has issues with floats/Nonetypes
     position = (float(val)-input_interval_start)/(input_interval_end-input_interval_start)
     scale = float(output_interval_end)-output_interval_start
     start_position = float(output_interval_start)
@@ -140,7 +149,7 @@ def test_image(filename, x_size=350, y_size=350):
     im.save(filename)
 
 
-def generate_art(filename, x_size=1920, y_size=1080):
+def generate_art(filename, x_size=1920, y_size=1080): #I set sizes to standard screen resulution to make background images
     """ Generate computational art and save as an image file.
 
         filename: string filename for image (should be .png)
@@ -174,6 +183,8 @@ if __name__ == '__main__':
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
+
+#i tried to loop through multiple pictues.  However, I have to regenerate for some reason.  For example, range(10) has to generate 55 pictues to get 10 pictures.
 for i in range(2):
     print i
     generate_art(str(i)+"art.png")
