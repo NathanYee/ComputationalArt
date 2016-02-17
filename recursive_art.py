@@ -19,7 +19,7 @@ def build_random_function(min_depth, max_depth):
     func_list1 = ['x','y']
     func_list2 = ['cos_pi','sin_pi']
     func_list3 = ['prod','avg']
-
+    func_list4 = ['tan_pi','circ']
     #set current depth
     depth = random.randint(min_depth,max_depth)
 
@@ -30,7 +30,7 @@ def build_random_function(min_depth, max_depth):
 
     #if not base case, call function again wirh randomness
     else:
-        choice = random.randint(1,3)
+        choice = random.randint(1,4)
         coin_flip = random.randint(0,1)
         if choice == 1:
             return [func_list1[coin_flip],build_random_function(min_depth-1,max_depth-1)]
@@ -38,8 +38,9 @@ def build_random_function(min_depth, max_depth):
             return [func_list2[coin_flip],build_random_function(min_depth-1,max_depth-1)]
         elif choice == 3:
             return [func_list3[coin_flip],build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+        elif choice == 4:
+            return [func_list4[coin_flip],build_random_function(min_depth-1,max_depth-1)]
 
-build_random_function(1,2)
 
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
@@ -68,6 +69,10 @@ def evaluate_random_function(f, x, y):
         return evaluate_random_function(f[1],x,y) * evaluate_random_function(f[2],x,y)
     elif f[0] == 'avg':
         return (evaluate_random_function(f[1],x,y) + evaluate_random_function(f[2],x,y)) / 2.0
+    elif f[0] == 'tan_pi':
+        return math.tan(math.pi * evaluate_random_function(f[1],x,y))
+    elif f[0] == 'circ':
+        return evaluate_random_function(f[1],x,x)*evaluate_random_function(f[1],x,x)+ evaluate_random_function(f[1],y,y)*evaluate_random_function(f[1],y,y)
 
     #included else just in case something bad happens.  I think this will break code
     else:
@@ -175,19 +180,17 @@ def generate_art(filename, x_size=1920, y_size=1080): #I set sizes to standard s
 
     im.save(filename)
 
-
+"""
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-
+"""
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
 
 #i tried to loop through multiple pictues.  However, I have to regenerate for some reason.  For example, range(10) has to generate 55 pictues to get 10 pictures.
-for i in range(2):
-    print i
-    generate_art(str(i)+"art.png")
+generate_art("myart.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
